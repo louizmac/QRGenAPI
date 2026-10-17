@@ -1,13 +1,27 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
 
 from core.generator import generate_qr
+
 
 app = FastAPI(
     title="QRGenAPI",
     description="A lightweight, open-source QR code generation REST API",
     version="1.0.0"
 )
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://trymyapis.rf.gd"
+    ],
+    allow_credentials=False,
+    allow_methods=["GET"],
+    allow_headers=["*"]
+)
+
 
 @app.get("/")
 def home():
@@ -19,6 +33,7 @@ def home():
             "/api/v1/generate"
         ]
     }
+
 
 @app.get("/api/v1/generate")
 def generate(
